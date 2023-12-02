@@ -1,0 +1,29 @@
+<div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a href="/book/{{ book.1.id }}">
+        <div class="book mx-auto">
+            <div class="book__cover">
+                <img class="book__cover-img" src="{{ book.1.thumbnail }}" alt="{{ book.1.title }}">
+            </div>
+            <div class="book__pages"></div>
+        </div>
+    </a>
+    <div class="px-5 py-5">
+        <a href="#">
+            <span class=" block truncate font-semibold tracking-tight dark:text-white">{{ book.1.title }}</span>
+        </a>
+
+        <div class="flex items-center justify-between">
+            <div class="flex items-center mt-2.5 mb-5">
+                {% for category in book.1.categories %}
+                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                        {{ category }}
+                    </span>
+                {% endfor %}
+            </div>
+
+            <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
+                {{ book.1.pageCount }} pages
+            </span>
+        </div>
+    </div>
+</div>

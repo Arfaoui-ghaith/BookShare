@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.book {
+    --witdh: 200px;
+    --height: 300px;
+    --thick: 40px;
+    --inner: 6px;
+    --pages-bg: white;
+    --cover-bg: rgba(33,32,30,255);
+    --cover-radius: 6px;
+    position: relative;
+    width: var(--witdh);
+    height: var(--height);
+    transform: rotateY(-30deg) rotateX(30deg);
+    transition: 0.5s transform;
+}
+
+.book:hover {
+    transform: rotateY(-20deg) rotateX(20deg);
+}
+
+.book,
+.book__cover,
+.book__pages {
+    transform-style: preserve-3d;
+}
+
+.book__cover,
+.book__cover::before,
+.book__cover-img {
+    border-top-right-radius: var(--cover-radius);
+    border-bottom-right-radius: var(--cover-radius);
+    user-select: none;
+}
+
+.book__cover::before,
+.book__cover::after,
+.book__pages::before,
+.book__pages::after {
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 0;
+    height: 100%;
+}
+
+.book__cover,
+.book__cover::before,
+.book__cover::after {
+    background-color: var(--cover-bg);
+}
+
+.book__cover {
+    width: 100%;
+    height: 100%;
+}
+
+.book__cover::before {
+    width: 100%;
+    transform: translateZ(calc(var(--thick)*-1));
+    box-shadow: 0 0 16px 1px rgba(0, 0, 0, 1);
+}
+
+.book__cover::after {
+    width: var(--thick);
+    transform-origin: left center;
+    transform: rotateY(90deg);
+}
+
+.book__cover-img {
+    width: 100%;
+    height: 100%;
+}
+
+.book__pages,
+.book__pages::before,
+.book__pages::after {
+    background: var(--pages-bg);
+}
+
+.book__pages {
+    position: absolute;
+    right: var(--inner);
+    top: var(--inner);
+    width: var(--thick);
+    height: calc(100% - var(--inner)*2);
+    transform-origin: right center;
+    transform: rotateY(-90deg);
+}
+
+.book__pages::before,
+.book__pages::after {
+    width: var(--thick);
+    height: calc(var(--witdh) - var(--inner));
+}
+
+.book__pages::before {
+    transform-origin: center top;
+    transform: rotateX(90deg);
+}
+
+.book__pages::after {
+    top: unset;
+    bottom: 0;
+    transform-origin: center bottom;
+    transform: rotateX(-90deg);
+}
+
+/* Media query for small screens */
+@media (max-width: 640px) {
+    .book {
+        --width: 150px;
+        --height: 225px;
+        --thick: 30px;
+        --inner: 4px;
+    }
+}
