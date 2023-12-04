@@ -16,10 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import index, contact, book
+from core.views import index, contact, book, signup, add_to_favorites, remove_from_favorites, favorites
+from django.contrib.auth import views as auth_views
+from core.forms import LoginForm
 
 urlpatterns = [
-    path('book/<str:id>', book, name="book"),
+    path('favorites/', favorites, name="favorites"),
+    path('remove_from_favorites/<str:book_id>', remove_from_favorites, name="remove_from_favorites"),
+    path('add_to_favorites/<str:book_id>', add_to_favorites, name="add_to_favorites"),
+    path('book/<str:google_book_id>', book, name="book"),
+    path('signin/', auth_views.LoginView.as_view(template_name='core/signin.html', authentication_form=LoginForm), name="signin"),
+    path('signup/', signup, name="signup"),
     path('contact/', contact, name="contact"),
     path('', index, name="index"),
     path('admin/', admin.site.urls),

@@ -1,4 +1,5 @@
 {% extends "_base.html" %}
+{% load custom_filters %}
 
 {% block content %}
     <section class="bg-white dark:bg-gray-900">
@@ -38,12 +39,29 @@
                 </p>
 
                 <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900">
-                    Get started
-                    <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    Generate Download Link
+                    <svg class="ms-2 w-4 h-4 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"></path>
+                        <path d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path>
+                    </svg>
                 </a>
-                <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                    Speak to Sales
-                </a>
+                {% if user.is_authenticated %}
+                    {% if not book|in_user_favorites:user %}
+                    <a href="{% url 'add_to_favorites' book.id %}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                        Add To Favorites
+                        <svg class="ms-2 w-4 h-4 text-red-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"></path>
+                        </svg>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'remove_from_favorites' book.id %}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-red-900 border border-red-300 rounded-lg hover:bg-red-100 focus:ring-4 focus:ring-red-100 dark:text-white dark:border-red-700 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                        Remove From Favorites
+                        <svg class="ms-2 w-4 h-4 text-red-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <path d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z"></path>
+                        </svg>
+                    </a>
+                    {% endif %}
+                {% endif %}
             </div>
             <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
                 <div class="book mx-auto">
@@ -82,4 +100,8 @@
         </div>
       </div>
     </section>
+
+    {% if request.user.is_authenticated %}
+        {% include 'core/components/addComment.html' %}
+    {% endif %}
 {% endblock %}

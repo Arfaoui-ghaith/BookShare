@@ -27,7 +27,6 @@ def get_popular_books(startIndex=0, maxResults=9, filterBy="", searchTxt=""):
             "key": os.getenv("GOOGLE_BOOKS_API_KEY")
         }
 
-
     try:
         with httpx.Client() as client:
             response = client.get(base_url, params=params)
@@ -93,14 +92,16 @@ def get_book_details(id):
             dimensions = volume_info.get("dimensions", {'height': 'N/A', 'width': 'N/A', 'thickness': 'N/A'})
 
             book_info = {
-                "id": data.get("id", "N/A"),
+                "id": id,
                 "title": volume_info.get("title", "N/A"),
                 "subtitle": volume_info.get("subtitle", "N/A"),
                 "description": volume_info.get("description", "N/A"),
                 "publisher": volume_info.get("publisher", "N/A"),
                 "published_date": volume_info.get("publishedDate", "N/A"),
                 "thumbnail": image_links.get("thumbnail", "N/A"),
-                "industry_identifiers": ', '.join([ f'{isbn["type"]}-{isbn["identifier"]}' for isbn in industry_identifiers]),
+                "industry_identifiers": ', '.join(
+                    [f'{isbn["type"]}-{isbn["identifier"]}' for isbn in industry_identifiers]),
+                "isbn": industry_identifiers[0]['identifier'] if len(industry_identifiers) > 0 else None,
                 "categories": categories,
                 "authors": ', '.join(authors),
                 "pageCount": volume_info.get("pageCount", 0),
@@ -117,4 +118,3 @@ def get_book_details(id):
     except httpx.HTTPError as e:
         print(f"HTTP error: {e}")
         return None
-
