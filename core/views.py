@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from core.services import get_popular_books, get_book_details
@@ -107,3 +108,8 @@ def add_comment_to_book(request, book_id):
 
     Favorite.objects.create(user=request.user, book=bookDB, content=content)
     return redirect('book', google_book_id=book_id)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')

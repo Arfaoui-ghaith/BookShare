@@ -1,8 +1,13 @@
 from django import template
-
+from urllib.parse import urlencode
 from core.models import Book, Comment
 
 register = template.Library()
+
+
+@register.filter(name='encode_url')
+def encode_url(url):
+    return urlencode('http://localhost:8000/book/'+url)
 
 
 @register.filter(name='in_user_favorites')
