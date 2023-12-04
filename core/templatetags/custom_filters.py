@@ -1,6 +1,6 @@
 from django import template
 
-from core.models import Book
+from core.models import Book, Comment
 
 register = template.Library()
 
@@ -14,4 +14,14 @@ def in_user_favorites(book, user):
         return False
 
 
-
+@register.filter(name='book_comments')
+def book_comments(google_book):
+    try:
+        # Get the book with the specified title
+        book = Book.objects.get(google_id=google_book['id'])
+    except Book.DoesNotExist:
+        # Book not found, return an empty queryset
+        return Comment.objects.none()
+    else:
+        # Retrieve comments for the specified book
+        return Comment.objects.filter(book=book).select_related('user').order_by('-createdAt')

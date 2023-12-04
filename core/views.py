@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from core.services import get_popular_books, get_book_details
 from .forms import SignupForm
-from .models import Book, Favorite
+from .models import Book, Favorite, Comment
 
 
 def index(request):
@@ -90,3 +90,20 @@ def remove_from_favorites(request, book_id):
 def favorites(request):
     favorite_books = Favorite.objects.filter(user=request.user).select_related('book')
     return render(request, 'core/favorites.html', {'favorite_books': favorite_books})
+
+
+@login_required
+def add_comment_to_book(request, book_id):
+    content = request.POST.get('content')
+    bookDB = None
+    if not Book.objects.filter(google_id=book_id).exists():
+        googleBook = get_book_details(book_id)
+        bookDB = Book.objects.create(
+            google_id=googleBook['id'],
+            thumbnail=googleBook['thumbnail'],
+            title=googleBook['title'],
+            isbn=googleBook['isbn'],
+        )
+
+    Favorite.objects.create(user=request.user, book=bookDB, content=content)
+    return redirect('book', google_book_id=book_id)

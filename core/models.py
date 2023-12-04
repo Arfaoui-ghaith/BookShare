@@ -18,3 +18,11 @@ class Favorite(models.Model):
 
     class Meta:
         unique_together = ('user', 'book')
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    content = models.TextField()
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
