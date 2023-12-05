@@ -9,13 +9,12 @@ from .models import Book, Favorite, Comment
 def index(request):
     max_results_per_page = 9
 
-    # Get the current page from the query parameters or default to 1
-
-    page = int(request.GET.get('page', 0))
+    page = int(request.GET.get('page', 1))
     filterBy = request.GET.get('filterBy', None)
     searchTxt = request.GET.get('searchTxt', None)
 
-    books, count = get_popular_books(page * max_results_per_page, max_results_per_page, filterBy, searchTxt)
+    books, count, data = get_popular_books(page * max_results_per_page, max_results_per_page, filterBy, searchTxt)
+    print(books, count, data)
 
     context = {
         'page': page,
@@ -25,8 +24,8 @@ def index(request):
         'next_page_number': page + 1,
         'previous_page_number': page - 1,
         'total_books': count,
-        'first_page_showen_books': 9 * page,
-        'last_page_showen_books': 9 * (page + 1),
+        'first_page_showen_books': 9 * page-1,
+        'last_page_showen_books': 9 * page,
         'filterBy': filterBy,
         'searchTxt': searchTxt
     }

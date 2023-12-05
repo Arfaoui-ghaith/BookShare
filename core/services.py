@@ -10,9 +10,10 @@ load_dotenv()
 
 def get_popular_books(startIndex=0, maxResults=9, filterBy="", searchTxt=""):
     base_url = "https://www.googleapis.com/books/v1/volumes"
+
     if filterBy != "" and searchTxt != "":
         params = {
-            "q": f'{filterBy}:{searchTxt}',
+            "q": f'{filterBy}:{str(searchTxt).strip()}',
             "orderBy": "newest",
             "startIndex": startIndex,
             "maxResults": maxResults,
@@ -46,6 +47,7 @@ def get_popular_books(startIndex=0, maxResults=9, filterBy="", searchTxt=""):
                 categories = volume_info.get("categories", [])
                 authors = volume_info.get("authors", [])
 
+
                 book_info = {
                     "id": item.get("id", "N/A"),
                     "title": volume_info.get("title", "N/A"),
@@ -60,16 +62,15 @@ def get_popular_books(startIndex=0, maxResults=9, filterBy="", searchTxt=""):
                 }
 
                 books.append(book_info)
-                count = data.get("totalItems", 0)
 
-            return books, count
+            return books, data.get("totalItems", 0), data
 
     except httpx.RequestError as e:
         print(f"Request error: {e}")
-        return []
+        return [], 0, None
     except httpx.HTTPError as e:
         print(f"HTTP error: {e}")
-        return []
+        return [], 0, None
 
 
 def get_book_details(id):
