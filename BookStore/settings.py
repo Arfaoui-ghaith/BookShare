@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
-import django_on_heroku
+import django_heroku
 import dj_database_url
 from pathlib import Path
 
@@ -161,5 +161,5 @@ LOGOUT_REDIRECT_URL = 'index'
 
 INSTALLED_APPS += ['django_social_share']
 DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
-django_on_heroku.settings(locals())
+django_heroku.settings(locals())
 
