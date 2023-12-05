@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
+import django_on_heroku
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -77,7 +79,7 @@ WSGI_APPLICATION = 'BookStore.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bookstore',
@@ -85,7 +87,7 @@ DATABASES = {
         'USER': 'Arfaoui-ghaith',
         'PASSWORD': 'xdyjHobBQ1z7'
     }
-}
+}"""
 
 
 # Password validation
@@ -158,4 +160,6 @@ LOGOUT_REDIRECT_URL = 'index'
 
 
 INSTALLED_APPS += ['django_social_share']
+DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
+django_on_heroku.settings(locals())
 
