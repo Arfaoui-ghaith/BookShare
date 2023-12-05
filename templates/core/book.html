@@ -40,7 +40,7 @@
                     </span>
                 </p>
 
-                <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900">
+                <a href="{% url 'generate_download_link' book.id %}" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900">
                     Generate Download Link
                     <svg class="ms-2 w-4 h-4 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"></path>
@@ -98,12 +98,12 @@
       <div class="container px-5 py-2 mx-auto">
         <div class="text-center mb-5">
           <h1 class="sm:text-2xl text-2xl font-medium text-center title-font text-gray-900 mb-4">Description</h1>
-          <p class="text-base leading-relaxed mx-auto">{{ book.description }}</p>
+          <p class="text-base leading-relaxed mx-auto">{{ book.description|safe }}</p>
         </div>
       </div>
     </section>
 
     {% if request.user.is_authenticated %}
-        {% include 'core/components/comments.html' with comments=book|book_comments %}
+        {% include 'core/components/comments.html' with comments=book|book_comments book=book %}
     {% endif %}
 {% endblock %}

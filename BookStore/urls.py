@@ -16,12 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import index, contact, book, signup, add_to_favorites, remove_from_favorites, favorites, logout_view
+from core.views import index, contact, book, signup, add_to_favorites, remove_from_favorites, favorites, logout_view, \
+    add_comment, remove_comment, update_comment, update_user, change_password, generate_download_link
 from django.contrib.auth import views as auth_views
 from core.forms import LoginForm
 
 urlpatterns = [
+    path('generate_download_link/<str:book_google_id>', generate_download_link, name='generate_download_link'),
     path('logout/', logout_view, name='logout'),
+    path('update_user/', update_user, name='update_user'),
+    path('change_password/', change_password, name='change_password'),
+    path('update_comment/<int:comment_id>', update_comment, name='update_comment'),
+    path('remove_comment/<int:comment_id>', remove_comment, name='remove_comment'),
+    path('book/<str:book_google_id>/add_comment/', add_comment, name='add_comment'),
     path('favorites/', favorites, name="favorites"),
     path('remove_from_favorites/<str:book_id>', remove_from_favorites, name="remove_from_favorites"),
     path('add_to_favorites/<str:book_id>', add_to_favorites, name="add_to_favorites"),
