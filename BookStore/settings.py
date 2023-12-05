@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+import django_heroku
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-atyex%3e@zxmex@4fw^@f1=r1wg0$-z6!ff2x0!=!sopa2w87#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sharebook-16545265be7f.herokuapp.com']
 
 
 # Application definition
@@ -159,3 +161,4 @@ LOGOUT_REDIRECT_URL = 'index'
 
 INSTALLED_APPS += ['django_social_share']
 
+django_heroku.settings(locals())
