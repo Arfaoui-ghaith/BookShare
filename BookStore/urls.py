@@ -22,20 +22,25 @@ from django.contrib.auth import views as auth_views
 from core.forms import LoginForm
 
 urlpatterns = [
+    path('', index, name="index"),
+
+    path('book/<str:google_book_id>', book, name="book"),
     path('generate_download_link/<str:book_google_id>', generate_download_link, name='generate_download_link'),
-    path('logout/', logout_view, name='logout'),
+
     path('update_user/', update_user, name='update_user'),
     path('change_password/', change_password, name='change_password'),
+
     path('update_comment/<int:comment_id>', update_comment, name='update_comment'),
     path('remove_comment/<int:comment_id>', remove_comment, name='remove_comment'),
     path('book/<str:book_google_id>/add_comment/', add_comment, name='add_comment'),
+
     path('favorites/', favorites, name="favorites"),
     path('remove_from_favorites/<str:book_id>', remove_from_favorites, name="remove_from_favorites"),
     path('add_to_favorites/<str:book_id>', add_to_favorites, name="add_to_favorites"),
-    path('book/<str:google_book_id>', book, name="book"),
+
     path('signin/', auth_views.LoginView.as_view(template_name='core/signin.html', authentication_form=LoginForm), name="signin"),
     path('signup/', signup, name="signup"),
-    path('contact/', contact, name="contact"),
-    path('', index, name="index"),
+    path('logout/', logout_view, name='logout'),
+
     path('admin/', admin.site.urls),
 ]
